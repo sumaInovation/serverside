@@ -5,6 +5,18 @@ const passport = require('passport')
 const bodyparser=require('body-parser')
 const bcrypt=require('bcryptjs');
 const LocalStrategy = require('passport-local').Strategy;
+const MongoDBStore = require('connect-mongodb-session')(session);
+const store = new MongoDBStore({
+    uri: 'mongodb+srv://suma:123@cluster0.wxldekr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
+    collection: 'mySessions'
+  });
+
+  // Catch errors
+store.on('error', function(error) {
+    console.log(error);
+  });
+
+
 let user={};
 //midlleware
 app.use(express.urlencoded({ extended: true }))
@@ -13,7 +25,8 @@ app.use(bodyparser.json());
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    store: store,
     cookie: {
         maxAge: 1000 * 60 * 60 * 24
     }
