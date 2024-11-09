@@ -99,7 +99,7 @@ const WebSocket = require('ws');
 const express = require('express')
 const app = express()
 // Create a WebSocket server on port 8080
-const wss = new WebSocket.Server({ port: 3000 });
+const wss = new WebSocket.Server({ port: 8080 });
 
 // Event listener for new client connections
 wss.on('connection', (ws) => {
@@ -126,11 +126,11 @@ wss.on('connection', (ws) => {
   });
 });
 
-console.log('WebSocket server is running on ws://localhost:3000');
+console.log('WebSocket server is running on ws://localhost:8080');
 
 
 
-const port = 3001
+const port = 3000
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
