@@ -94,7 +94,7 @@
 
 
 // server.js
-
+/*
 const WebSocket = require('ws');
 const express = require('express')
 const app = express()
@@ -140,3 +140,69 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
 // app.listen(PORT, () => {console.log(`Server is running on PORT:${PORT}`) });
+*/
+
+
+
+// const WebSocket = require('ws');
+
+// // Replace with your WebSocket server URL
+// const ws = new WebSocket('https://myserver-21m76djx.b4a.run/');
+
+// // Event when the connection opens
+// ws.on('open', function open() {
+//   console.log('Connected to the server');
+//   ws.send('Hello, server!'); // Send a message to the server
+// });   
+
+// // Event for receiving messages from the server
+// ws.on('message', function incoming(data) {
+//   console.log('Received from server:', data);
+// });
+
+// // Event for when the connection closes
+// ws.on('close', function close() {
+//   console.log('Disconnected from server');
+// });
+
+// // Event for handling errors
+// ws.on('error', function error(error) {
+//   console.error('WebSocket error:', error);
+// });
+
+
+const express = require('express')
+const app = express()
+const server = require('http').createServer(app);
+const WebSocket = require('ws');
+
+const wss = new WebSocket.Server({ server:server });
+
+wss.on('connection', function connection(ws) {
+    //**************************************** */
+  console.log('A new client Connected!');
+  ws.send('Welcome New Client!');
+
+  ws.on('message', function incoming(message) {
+    console.log('received: %s', message);
+    ws.send("Hello Sumanga I am Involked!");
+   // Share message all connected client
+   wss.clients.forEach(function each(client) {
+    if (client !== ws && client.readyState === WebSocket.OPEN) {
+      client.send(message.toString());
+    }
+  });    
+   
+
+
+    
+
+     });
+   
+    //****************************** */
+ 
+});
+
+app.get('/', (req, res) => res.send('Hello World!'))
+
+server.listen(3000, () => console.log(`Lisening on port :3000`))
