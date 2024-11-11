@@ -13,7 +13,7 @@ wss.on('connection', function connection(ws) {
 
   ws.on('message', function incoming(message) {
     console.log('received: %s', message);
-    ws.send(message);
+    ws.send("you pass value is:"+message);
     dataincomming=message;
    // Share message all connected client
    wss.clients.forEach(function each(client) {
